@@ -195,6 +195,13 @@ proxy() {
                 echo "   HTTP: $http_proxy"
                 echo "   HTTPS: $https_proxy"
                 echo "   ALL: $all_proxy"
+                # 检测代理是否真正生效
+                if ! curl -s --connect-timeout 3 --max-time 5 https://www.google.com > /dev/null; then
+                    echo "⚠️  警告: 无法通过代理访问 Google，可能代理未运行或端口错误"
+                    echo "   请检查 是否已启动并监听 $port 端口"
+                else
+                    echo "🌐 代理连接测试：成功"
+                fi
             else
                 echo "📴 代理状态: OFF"
             fi
